@@ -1,0 +1,7 @@
+cchardet
+aiodns
+aiohttp
+aiohttp-jinja2
+python-dotenv
+sqlalchemy
+asyncpg
