@@ -1,0 +1,22 @@
+version: '3'
+services:
+#  database:
+#    image: postgres:12
+#    container_name: "nvo_db"
+#    env_file:
+#      - .env
+#    environment:
+#      - POSTGRES_USER:"POSTGRES_USER"
+#      - POSTGRES_PASSWORD:"POSTGRES_PASSWORD"
+#      - POSTGRES_DB:"POSTGRES_DB"
+#    ports:
+#      - 5432:5432
+  server:
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
+    volumes:
+      - .:/app
+      - app/venv/ # This line omits mapping of this folder into container
+    ports:
+      - 8000:8000
