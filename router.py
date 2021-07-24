@@ -1,8 +1,11 @@
 from aiohttp.web_app import Application
+from views.home import HomePageView, WebPostView
 
-from views.home import HomePageView
+URL_PREFIX = "/api/v1"
 
 
 def set_routes(app: Application):
     app.router.add_get('', HomePageView)
+    app.router.add_post(f'{URL_PREFIX}/post/web', WebPostView, name='web')
+
 
