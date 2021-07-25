@@ -6,3 +6,5 @@ python-dotenv
 sqlalchemy
 asyncpg
 aiofiles
+asyncio
+psycopg2-binary
