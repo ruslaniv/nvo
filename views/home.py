@@ -28,7 +28,7 @@ class FilePostView(web.View):
         req = await self.request.json()
         resp = await write_request_to_file(req)
         _ = parse_response(resp)
-        return web.json_response(_["messages"], status=_["status"]["status_code"])
+        return web.json_response(_["messages"], status=_["status_code"])
 
 
 class DatabasePostView(web.View):
