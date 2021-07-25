@@ -3,6 +3,9 @@ import aiohttp_jinja2
 from aiohttp import web
 from dotenv import load_dotenv
 
+from utils.parser import parse_response
+from workers.file import write_request_to_file
+
 load_dotenv()
 user = os.environ.get("POSTGRES_USER")
 
@@ -17,3 +20,11 @@ class WebPostView(web.View):
     async def post(self):
         req = await self.request.json()
         return web.json_response(req)
+
+
+class FilePostView(web.View):
+    async def post(self):
+        req = await self.request.json()
+        resp = await write_request_to_file(req)
+        _ = parse_response(resp)
+        return web.json_response(_["messages"], status=_["status"]["status_code"])
