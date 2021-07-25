@@ -1,24 +1,29 @@
 from os.path import join
+from typing import Union
+
 import aiofiles, aiofiles.os
-import datetime, json
+from datetime import datetime
+import json
 from pathlib import Path
 
 from utils.timestamp import convert_timestamp
 
 
-async def write_request_to_file(data: dict) -> dict:
+async def write_request_to_file(data: dict[str, Union[str, datetime]]) -> dict[str, Union[str, int], dict[str, Union[str, int, float]]]:
     if "created_date" not in data:
-        data["created_date"] = datetime.datetime.now().timestamp()
+        data["created_date"] = datetime.now().timestamp()
     else:
         data["created_date"] = convert_timestamp(data['created_date'], "timestamp")
     directory = join(Path(__file__).parent.parent, 'logs')
-    filename = datetime.datetime.now().strftime("%Y-%m-%d")
+    filename = datetime.now().strftime("%Y-%m-%d")
     try:
         await aiofiles.os.stat('/')
     except FileNotFoundError:
-        return {"status": "failed", "message": "The file system is missing. Make sure the file system is mounted", "status_code": 500}
+        # ToDo Maybe subclass all error messages?
+        # ToDo Maybe break out to separate funcitons?
+        return {"status": "failed", "error_message": "The file system is missing. Make sure the file system is mounted", "status_code": 500}
     try:
-        await aiofiles.os.stat(directory)
+        await aiofiles.os.stat(directory)  # aiofiles does not implement any other method to check if a directory exists
     except:
         await aiofiles.os.mkdir(directory)
     try:

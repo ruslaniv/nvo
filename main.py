@@ -8,17 +8,17 @@ from db import db_conn
 from router import set_routes
 
 
-def main():
+def main() -> None:
     configure(dev_mode=True)
     app = create_app()
     run_app(app)
 
 
-def configure(dev_mode: bool):
+def configure(dev_mode: bool) -> None:
     configure_db(dev_mode)
 
 
-def configure_db(dev_mode: bool):
+def configure_db(dev_mode: bool) -> None:
     db_conn.do_global_init()
 
 

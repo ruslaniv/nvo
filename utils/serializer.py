@@ -1,9 +1,10 @@
 from datetime import datetime
+from typing import Union
 
 import sqlalchemy.orm
 
 
-def serialize(data):
+def serialize(data: dict[str, Union[str, int, datetime]]) -> dict[str, Union[str, float, int]]:
     results = {}
     if isinstance(data, dict):
         _={}

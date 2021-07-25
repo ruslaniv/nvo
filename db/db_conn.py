@@ -24,7 +24,7 @@ __factory: Optional[Callable[[], Session]] = None
 __async_engine: Optional[AsyncEngine] = None
 
 
-def do_global_init():
+def do_global_init() -> None:
     global __factory, __async_engine
     if __factory:
         return
@@ -35,6 +35,7 @@ def do_global_init():
     __factory = orm.sessionmaker(bind=engine)
     # noinspection PyUnresolvedReferences
     import db.__all_models__
+    # DO NOT UNCOMMENT THE FOLLOWING LINE
     # SqlAlchemyBase.metadata.drop_all(engine) # uncommenting this line WILL DROP ALL TABLES IN THE DATABASE!!!!
     SqlAlchemyBase.metadata.create_all(engine)
 

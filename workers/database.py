@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Union
 
 from db import db_conn
 from db.model import Message
@@ -6,7 +7,7 @@ from utils.serializer import serialize
 from utils.timestamp import convert_timestamp
 
 
-async def write_request_to_db(data):
+async def write_request_to_db(data: dict[str, Union[str, datetime]]) -> dict[str, Union[str, int], dict[str, Union[str, int, float]]]:
     message = Message()
     message.transport = data['transport']
     message.target = data['target']
@@ -19,6 +20,7 @@ async def write_request_to_db(data):
         async with db_conn.get_async_sa_session() as session:
             session.add(message)
             await session.commit()
+        # ToDo investigate production grade serializer with schema marshalling?
         response = serialize(message.__dict__)
         del response["_sa_instance_state"]
         return {"status": "created", "status_code": 201, "response": response}
