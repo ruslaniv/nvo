@@ -14,3 +14,6 @@ Eg.: request.body.transport == mail => route to mail endpoint
 
 ## General
 1. Add logging of all requests to a separate table in the database
+
+## Views
+1. Add request validation against schema (pydantic/marshmallow?)
