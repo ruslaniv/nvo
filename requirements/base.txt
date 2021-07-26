@@ -8,3 +8,4 @@ asyncpg
 aiofiles
 asyncio
 psycopg2-binary
+celery

@@ -3,6 +3,7 @@ import jinja2
 from aiohttp import web
 from aiohttp.web import run_app
 from aiohttp.web_app import Application
+from celery import Celery
 
 from db import db_conn
 from router import set_routes

@@ -1,4 +1,6 @@
 import os
+import time
+
 import aiohttp_jinja2
 from aiohttp import web
 from dotenv import load_dotenv
@@ -6,6 +8,7 @@ from dotenv import load_dotenv
 from utils.parser import parse_response
 from workers.database import write_request_to_db
 from workers.file import write_request_to_file
+from tasks import send_mail_task
 
 load_dotenv()
 user = os.environ.get("POSTGRES_USER")
@@ -37,3 +40,14 @@ class DatabasePostView(web.View):
         response = await write_request_to_db(req)
         _ = parse_response(response)
         return web.json_response(_["messages"], status=_["status_code"])
+
+
+class EmailPostView(web.View):
+    async def post(self):
+        req = await self.request.json()
+        result = send_mail_task.delay(req)
+        print(result.ready())
+        sum([i for i in range(1000)])
+        print(result.ready())
+        result = result.get()
+        return web.json_response({"answer": result})
